@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classe – Notre Espace</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ========== ÉCRAN DE CONNEXION ========== -->
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-logo">📚</div>
+      <h1>Notre Classe</h1>
+      <p class="auth-sub">Connecte-toi ou crée ton compte pour entrer</p>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" data-tab="login">Connexion</button>
+        <button type="button" class="auth-tab" data-tab="register">Créer un compte</button>
+        <button type="button" class="auth-tab" data-tab="forgot">Mot de passe oublié</button>
+      </div>
+
+      <!-- Connexion -->
+      <form id="formLogin" class="auth-form">
+        <input type="text" id="loginPseudo" placeholder="Prénom" required maxlength="30" autocomplete="username">
+        <input type="password" id="loginPass" placeholder="Mot de passe" required minlength="4" autocomplete="current-password">
+        <button type="submit" class="btn btn-primary btn-full">Entrer</button>
+        <p class="auth-error" id="loginError"></p>
+      </form>
+
+      <!-- Inscription -->
+      <form id="formRegister" class="auth-form hidden">
+        <input type="text" id="regNom" placeholder="Nom de famille" required maxlength="40" autocomplete="family-name">
+        <input type="text" id="regPrenom" placeholder="Prénom" required maxlength="30" autocomplete="given-name">
+        <input type="tel" id="regTel" placeholder="Numéro de téléphone" required maxlength="20" autocomplete="tel">
+        <input type="password" id="regPass" placeholder="Mot de passe (min. 4 caractères)" required minlength="4" autocomplete="new-password">
+        <input type="password" id="regPass2" placeholder="Confirme le mot de passe" required minlength="4" autocomplete="new-password">
+        <input type="text" id="regCodeProf" placeholder="Code professeur (optionnel)" maxlength="20">
+        <p class="auth-hint-small">Le code professeur est donné par l’enseignant (ex: PROF2026)</p>
+        <button type="submit" class="btn btn-primary btn-full">Créer mon compte</button>
+        <p class="auth-error" id="regError"></p>
+      </form>
+
+      <!-- Mot de passe oublié -->
+      <form id="formForgot" class="auth-form hidden">
+        <p class="auth-hint-small" style="margin-bottom:0.8rem;text-align:left;">Entre ton prénom et ton numéro de téléphone pour réinitialiser ton mot de passe.</p>
+        <input type="text" id="forgotPrenom" placeholder="Prénom" required maxlength="30">
+        <input type="tel" id="forgotTel" placeholder="Numéro de téléphone" required maxlength="20">
+        <input type="password" id="forgotPass" placeholder="Nouveau mot de passe (min. 4)" required minlength="4">
+        <input type="password" id="forgotPass2" placeholder="Confirme le nouveau mot de passe" required minlength="4">
+        <button type="submit" class="btn btn-primary btn-full">Réinitialiser</button>
+        <p class="auth-error" id="forgotError"></p>
+        <p class="auth-success hidden" id="forgotSuccess">Mot de passe mis à jour ! Tu peux te connecter.</p>
+      </form>
+
+      <p class="auth-hint">Les comptes sont enregistrés uniquement sur cet appareil (navigateur).</p>
+    </div>
+  </div>
+
+  <!-- ========== SITE PRINCIPAL ========== -->
+  <div id="app" class="app hidden">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">Notre Classe</span>
+      </div>
+      <div class="header-right">
+        <span class="user-badge" id="userBadge">👤</span>
+        <button class="btn-logout" id="btnLogout" title="Se déconnecter">Déconnexion</button>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="#accueil" class="nav-link active" data-page="accueil">Accueil</a>
+        <a href="#devoirs" class="nav-link" data-page="devoirs">Devoirs</a>
+        <a href="#notes" class="nav-link" data-page="notes">Notes</a>
+        <a href="#discussion" class="nav-link" data-page="discussion">Discussion</a>
+        <a href="#eleves" class="nav-link" data-page="eleves">Élèves</a>
+        <a href="#photos" class="nav-link" data-page="photos">Photos</a>
+        <a href="#profil" class="nav-link" data-page="profil">Mon profil</a>
+        <a href="#contact" class="nav-link" data-page="contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ACCUEIL -->
+      <section id="accueil" class="page active">
+        <div class="hero">
+          <div class="hero-badge">Année scolaire 2025-2026</div>
+          <h1>Bienvenue <span id="welcomeName">!</span> 👋</h1>
+          <p class="hero-subtitle" id="welcomeRole"></p>
+          <p class="hero-subtitle">
+            Un espace simple pour retrouver les devoirs, tes notes,<br>
+            discuter avec tes camarades et partager des photos.
+          </p>
+          <div class="stats" id="stats">
+            <div class="stat"><span class="stat-number" id="statDevoirs">0</span><span class="stat-label">Devoirs</span></div>
+            <div class="stat"><span class="stat-number" id="statNotes">0</span><span class="stat-label">Notes</span></div>
+            <div class="stat"><span class="stat-number" id="statMessages">0</span><span class="stat-label">Messages</span></div>
+            <div class="stat"><span class="stat-number" id="statPhotos">0</span><span class="stat-label">Photos</span></div>
+          </div>
+          <div class="hero-cards">
+            <a href="#devoirs" class="hero-card" data-page="devoirs"><span class="hero-icon">📝</span><h3>Devoirs</h3><p>Voir et télécharger</p></a>
+            <a href="#notes" class="hero-card" data-page="notes"><span class="hero-icon">📊</span><h3>Notes</h3><p>Tes résultats</p></a>
+            <a href="#discussion" class="hero-card" data-page="discussion"><span class="hero-icon">💬</span><h3>Discussion</h3><p>Parler avec la classe</p></a>
+            <a href="#eleves" class="hero-card" data-page="eleves"><span class="hero-icon">👥</span><h3>Élèves</h3><p>Voir la liste</p></a>
+            <a href="#photos" class="hero-card" data-page="photos"><span class="hero-icon">📷</span><h3>Photos</h3><p>Partager des souvenirs</p></a>
+            <a href="#profil" class="hero-card" data-page="profil"><span class="hero-icon">🧑</span><h3>Mon profil</h3><p>Photo et infos</p></a>
+          </div>
+          <div class="hero-contact">
+            <a href="#contact" class="btn btn-primary" data-page="contact">📞 Nous contacter</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- DEVOIRS -->
+      <section id="devoirs" class="page">
+        <div class="page-header">
+          <h2>📝 Devoirs</h2>
+          <button class="btn btn-primary" id="btnAddDevoir">+ Ajouter un devoir</button>
+        </div>
+        <div class="form-card hidden" id="formDevoir">
+          <h3>Nouveau devoir</h3>
+          <input type="text" id="devoirTitre" placeholder="Titre du devoir">
+          <textarea id="devoirDesc" placeholder="Description / consignes..." rows="3"></textarea>
+          <input type="date" id="devoirDate">
+          <input type="text" id="devoirMatiere" placeholder="Matière (Maths, Français...)">
+          <div class="form-actions">
+            <button class="btn btn-primary" id="saveDevoir">Enregistrer</button>
+            <button class="btn btn-secondary" id="cancelDevoir">Annuler</button>
+          </div>
+        </div>
+        <div class="list" id="listeDevoirs"></div>
+      </section>
+
+      <!-- NOTES -->
+      <section id="notes" class="page">
+        <div class="page-header">
+          <h2>📊 Notes</h2>
+          <button class="btn btn-primary" id="btnAddNote">+ Ajouter une note</button>
+        </div>
+        <div class="form-card hidden" id="formNote">
+          <h3>Nouvelle note</h3>
+          <input type="text" id="noteMatiere" placeholder="Matière">
+          <input type="text" id="noteTitre" placeholder="Titre (ex: Contrôle chapitre 3)">
+          <input type="number" id="noteValeur" placeholder="Note obtenue" min="0" max="20" step="0.5">
+          <input type="number" id="noteMax" placeholder="Note maximale" value="20" min="1">
+          <input type="date" id="noteDate">
+          <div class="form-actions">
+            <button class="btn btn-primary" id="saveNote">Enregistrer</button>
+            <button class="btn btn-secondary" id="cancelNote">Annuler</button>
+          </div>
+        </div>
+        <div class="list" id="listeNotes"></div>
+      </section>
+
+      <!-- DISCUSSION -->
+      <section id="discussion" class="page">
+        <div class="page-header">
+          <h2>💬 Discussion</h2>
+        </div>
+        <div class="chat-box">
+          <div class="messages" id="messages"></div>
+          <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Écris ton message..." maxlength="300">
+            <button class="btn btn-primary" id="sendMessage">Envoyer</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ÉLÈVES -->
+      <section id="eleves" class="page">
+        <div class="page-header">
+          <h2>👥 Liste des élèves</h2>
+        </div>
+        <p class="hint">Clique sur un nom pour voir son profil et ses photos.</p>
+        <div class="eleves-grid" id="elevesList"></div>
+
+        <div class="modal hidden" id="eleveModal">
+          <div class="modal-content">
+            <button class="modal-close" id="closeEleveModal">×</button>
+            <div class="eleve-profile">
+              <div class="eleve-avatar" id="eleveAvatar">👤</div>
+              <h3 id="eleveName">Nom</h3>
+              <p class="eleve-meta" id="eleveMeta"></p>
+              <h4>📷 Ses photos</h4>
+              <div class="gallery gallery-small" id="elevePhotos"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHOTOS -->
+      <section id="photos" class="page">
+        <div class="page-header">
+          <h2>📷 Photos de classe</h2>
+          <label class="btn btn-primary" for="photoInput">+ Ajouter une photo</label>
+          <input type="file" id="photoInput" accept="image/*" multiple hidden>
+        </div>
+        <p class="hint">Tes photos sont liées à ton compte. Tout le monde peut les voir dans la galerie et sur ton profil.</p>
+        <div class="gallery" id="gallery"></div>
+      </section>
+
+      <!-- MON PROFIL -->
+      <section id="profil" class="page">
+        <div class="page-header">
+          <h2>🧑 Mon profil</h2>
+        </div>
+        <div class="profil-card">
+          <div class="profil-avatar-wrap">
+            <div class="profil-avatar" id="profilAvatar">👤</div>
+            <label class="btn btn-secondary btn-sm" for="profilPhotoInput">Changer la photo</label>
+            <input type="file" id="profilPhotoInput" accept="image/*" hidden>
+          </div>
+
+          <!-- Affichage des infos -->
+          <div id="profilView">
+            <div class="profil-info" id="profilInfo"></div>
+            <div class="profil-actions">
+              <button class="btn btn-primary" id="btnEditProfil">✏️ Modifier mon compte</button>
+              <button class="btn btn-danger" id="btnDeleteAccount">🗑️ Supprimer mon compte</button>
+            </div>
+            <p class="hint" style="margin-top:1rem;">La photo de profil apparaît dans la liste des élèves et sur tes messages.</p>
+          </div>
+
+          <!-- Formulaire de modification -->
+          <div id="profilEdit" class="hidden">
+            <h3 style="margin-bottom:0.8rem;">Modifier mon compte</h3>
+            <div class="form-card" style="box-shadow:none;padding:0;margin:0;">
+              <input type="text" id="editNom" placeholder="Nom de famille" maxlength="40">
+              <input type="text" id="editPrenom" placeholder="Prénom" maxlength="30">
+              <input type="tel" id="editTel" placeholder="Numéro de téléphone" maxlength="20">
+              <input type="text" id="editCodeProf" placeholder="Code professeur (si tu veux devenir prof)" maxlength="20">
+              <p class="auth-hint-small">Laisse le code vide pour rester élève. Code actuel : PROF2026</p>
+              <div class="form-actions">
+                <button class="btn btn-primary" id="saveProfil">Enregistrer</button>
+                <button class="btn btn-secondary" id="cancelEditProfil">Annuler</button>
+              </div>
+              <p class="auth-error" id="editProfilError"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="page">
+        <div class="page-header">
+          <h2>📞 Contact</h2>
+        </div>
+        <div class="contact-card">
+          <p>Tu as une question ? Contacte-nous !</p>
+          <form id="contactForm">
+            <input type="text" id="contactNom" placeholder="Ton prénom" required>
+            <input type="email" id="contactEmail" placeholder="Ton email (optionnel)">
+            <textarea id="contactMessage" placeholder="Ton message..." rows="4" required></textarea>
+            <button type="submit" class="btn btn-primary">Envoyer le message</button>
+          </form>
+          <p class="hint" id="contactSuccess" style="display:none; color: var(--success);">Message enregistré !</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 – Site de la classe • Fait avec ❤️</p>
+    </footer>
+  </div>
+
+  
+  <!-- Lightbox photo en grand -->
+  <div class="lightbox hidden" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose" title="Fermer">×</button>
+    <img id="lightboxImg" src="" alt="Photo en grand">
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
